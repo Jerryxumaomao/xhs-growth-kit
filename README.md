@@ -5,6 +5,28 @@
 
 这套东西在一个真实的从零账号上跑通过：3 篇内容、全流程闭环、每一处工具坑都踩过并修掉了。仓库里没有任何账号定位/人设模板——**定位是你自己的事**，工具箱负责把你的定位跑成系统。
 
+## 流水线全景
+
+```mermaid
+flowchart TD
+    A[🎯 定位<br/>你自己想清楚] --> B[💡 找选题<br/>候选池 / 抓热点 / 对标]
+    B --> C[✍️ 写稿 + 去AI味<br/>humanizer 特调]
+    C --> D[🖼️ 封面<br/>露人·记忆点·小字克制]
+    D --> E{{🔒 盲评锁定<br/>隔离 sub-agent 打分<br/>预测写下即不可改}}
+    E --> F[📱 图文] & G[🎬 视频:拍原始素材<br/>每句 2-3 条]
+    G --> H[✂️ video-use 对话剪辑<br/>挑take·去口癖·字幕·动效]
+    F --> I[📤 手动发布<br/>「已发布」登记]
+    H --> I
+    I -->|T+3 天| J[📊 复盘<br/>adapter 自动抓后台数据<br/>实绩 vs 预测]
+    J -->|T+7| K[🌊 长尾补抓]
+    J --> L{攒够 5 个样本?}
+    L -->|否| B
+    L -->|是| M[🧬 bump<br/>rubric 进化·全量重打验证]
+    M --> B
+```
+
+**核心思想**：虚线左边全是"感觉"，从盲评锁定那一刻起全是"数据"。循环跑得越多，rubric 越懂你的账号——第五篇比第一篇聪明，第二十篇比第五篇聪明。
+
 ---
 
 ## 里面有什么
@@ -28,7 +50,7 @@
 
 ```bash
 # 0. 前置：Claude Code + Python 3.10+ + git；Windows 另需 jq（放进 Git Bash /usr/bin）
-git clone https://github.com/<you>/xhs-growth-kit my-xhs-project
+git clone https://github.com/Jerryxumaomao/xhs-growth-kit my-xhs-project
 cd my-xhs-project
 
 # 1. 在 Claude Code 里说：
@@ -62,6 +84,8 @@ cd my-xhs-project
 git clone https://github.com/browser-use/video-use ~/Developer/video-use
 cd ~/Developer/video-use && git am /path/to/xhs-growth-kit/video-use-patches/*.patch
 ```
+
+> 注：这 4 个补丁已提交上游 PR [browser-use/video-use#103](https://github.com/browser-use/video-use/pull/103)，合并后可跳过打补丁。
 
 之后：手机拍原始素材（每句拍 2-3 条，说错不用停）丢进文件夹 → 对 Claude 说"剪成 45s 竖屏成片，中文字幕" → 出成片。中文整句字幕、去口癖、降噪、动效插槽都能用。经验参数见 `docs/PIPELINE.md`。
 
