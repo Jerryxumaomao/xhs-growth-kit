@@ -36,7 +36,8 @@ flowchart TD
 | `cheat-on-content/` | 核心引擎（MIT，含本仓库的小红书扩展与大量修复，见下）——打分 rubric、盲评隔离、发布/复盘状态机、数据抓取适配器 |
 | `video-use-patches/` | [browser-use/video-use](https://github.com/browser-use/video-use)（对话式剪视频）的 4 个补丁：Windows 字幕路径 / 中文整句字幕+样式配置 / overlay 缩放 / 音频降噪链 |
 | `docs/SETUP.md` | 从零安装（Windows/macOS），含全部已知坑 |
-| `docs/PIPELINE.md` | 五阶段流水线怎么跑 + 外部 skill 接线表 |
+| `docs/PIPELINE.md` | 五阶段流水线怎么跑 + 外部 skill 接线表 + 剪辑原理与实测参数 |
+| `docs/CLAUDE.template.md` | **给你的项目装护栏**：拷成项目根 CLAUDE.md，每个会话自动注入——弱模型照做不出错，强模型读"为什么"举一反三 |
 
 ### 相比上游 cheat-on-content 多了什么（本仓库的增量）
 
