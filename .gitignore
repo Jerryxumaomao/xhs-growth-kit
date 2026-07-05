@@ -1,0 +1,9 @@
+.auth*/
+.cheat-cache/
+.cheat-secrets.json
+*cookies.json
+__pycache__/
+.venv/
+node_modules/
+.DS_Store
+Thumbs.db

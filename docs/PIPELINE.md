@@ -1,0 +1,43 @@
+# 流水线：五阶段 + 外部 skill 接线
+
+```
+定位(你自己想清楚) → 选题 → 写稿+去AI味 → 封面 → 【盲评锁定】
+  → [视频] 拍原始素材 → video-use 对话剪辑 → 成片
+  → 「拍了」登记 → 手动发布 → 「已发布」登记 → T+3「复盘」 → T+7 长尾补抓
+  → 攒 5 个复盘样本 → 「升级 rubric」(bump)
+```
+
+## 外部 skill 接线表（可选，各自从原渠道安装）
+
+| 环节 | 工具 | 备注 |
+|---|---|---|
+| 选题研究 | agent-reach + OpenCLI | `opencli xiaohongshu search/note/comments`，复用 Chrome 登录态 |
+| 初稿 | xhs-content 类 skill 或直接让 Claude 写 | 写完必须过下一行 |
+| 去 AI 味 | humanizer-zh | **小红书特调**：只去书面腔，保留 emoji/分点/口语。⚠️ 必须在盲评之前做 |
+| 封面图文卡 | guizang-social-card + 实拍 | 封面纪律：露人、有记忆点、小字克制 |
+| 打分/预测/复盘 | cheat-on-content（本仓库） | 核心，不可替换 |
+| 剪辑 | video-use + 本仓库补丁 | 见下 |
+| 发布 | **手动** | 别接自动发布，封号风险 |
+
+## 顺序铁律
+
+- **去 AI 味 + 封面 必须在盲评之前**——预测一写就锁死
+- 拍完如果和定稿差异 >30%（字符级），系统会要求 v2 预测——正常流程，照做就行
+- 复盘只认 cheat-on-content 的流程，别手写"感觉不错"
+
+## video-use 剪辑经验参数（中文竖屏实测）
+
+- 字幕样式（EDL `subtitle_style`，需本仓库补丁）：
+  `FontName=DengXian,FontSize=10,Bold=0,Spacing=1.5,PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BorderStyle=1,Outline=1,Shadow=0,Alignment=2,MarginV=55`
+- 人声修复链（EDL `audio_filter`，手机/相机机内收音发闷时）：
+  `highpass=f=80,afftdn=nr=15:nf=-28,equalizer=f=320:t=q:w=1.3:g=-3.5,equalizer=f=2800:t=q:w=1.0:g=2,treble=g=3.5:f=4500`
+  （原则：闷≠噪，先切 320Hz 的罩感、提 2.8k/4.5k，降噪保持温和——过度降噪本身就是糊的来源）
+- **ASR 的句尾标点 token 会吞掉拖尾静音**：剪辑收口要看最后一个实字的真实结束时间，不能按 token 边界留白，否则每段结尾拖 1-2 秒死气
+- 动效克制原则：开场 3s 零动效、全片 ≤3 处、每处 ≤3s、词级时间戳锚定（说到那个词才出现）
+- BGM 建议不烧进成片，发布时用小红书站内配乐（版权安全+蹭配乐流量）
+
+## 拍摄给剪辑省时间的三个习惯
+
+1. 每句口播拍 2-3 条，说错不用停——转写后按内容挑最好的
+2. 素材命名 `A1_t1.mp4`（段落_第几条）、`B1_描述.mp4`，take 直接映射脚本
+3. 安静房间收音、开拍先静 1 秒（给剪切留余量）；预算够直接上领夹麦
