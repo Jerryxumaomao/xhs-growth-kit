@@ -38,6 +38,7 @@ flowchart TD
 | `docs/SETUP.md` | 从零安装（Windows/macOS），含全部已知坑 |
 | `docs/PIPELINE.md` | 五阶段流水线怎么跑 + 外部 skill 接线表 + 剪辑原理与实测参数 |
 | `docs/CLAUDE.template.md` | **给你的项目装护栏**：拷成项目根 CLAUDE.md，每个会话自动注入——弱模型照做不出错，强模型读"为什么"举一反三 |
+| `docs/AGENT-PLAYBOOK.template.md` | **教你的 AI 怎么思考**：拆解难任务/验证自己/决定下一步的方法论，含真实案例 |
 
 ### 相比上游 cheat-on-content 多了什么（本仓库的增量）
 
