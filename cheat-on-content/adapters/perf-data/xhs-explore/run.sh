@@ -100,6 +100,10 @@ export CHEAT_PROJECT_ROOT="$PROJECT_ROOT"
 export CHEAT_VIDEOS_DIR="$( dirname "$VIDEO_FOLDER" )"
 
 echo "[xhs-explore] fetching note_id=$NOTE_ID into $VIDEO_FOLDER"
+# Timestamp marker: only a report written AFTER this instant belongs to this run.
+# (Comparing against VIDEO_FOLDER's mtime is wrong — a stale report elsewhere under
+# videos/ can be newer than the target folder and get copied in; bit us 2026-07-10.)
+RUN_MARKER=$(mktemp)
 if [[ -n "$SCRIPT_ARG" ]]; then
   "$PYTHON" "$ADAPTER_DIR/review.py" note "$NOTE_ID" "$SCRIPT_ARG"
 else
@@ -108,7 +112,8 @@ fi
 
 # review.py writes to CHEAT_VIDEOS_DIR/<auto-named-folder>/report.md.
 # Move the just-written report into our canonical video_folder if names differ.
-LATEST_REPORT=$(find "$( dirname "$VIDEO_FOLDER" )" -name "report.md" -newer "$VIDEO_FOLDER" -type f 2>/dev/null | head -1)
+LATEST_REPORT=$(find "$( dirname "$VIDEO_FOLDER" )" -name "report.md" -newer "$RUN_MARKER" -type f 2>/dev/null | head -1)
+rm -f "$RUN_MARKER"
 if [[ -n "$LATEST_REPORT" && "$( dirname "$LATEST_REPORT" )" != "$VIDEO_FOLDER" ]]; then
   cp "$LATEST_REPORT" "$VIDEO_FOLDER/report.md"
   AUTO_DIR=$( dirname "$LATEST_REPORT" )
